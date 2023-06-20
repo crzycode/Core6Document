@@ -1,1 +1,46 @@
+create project with cmd 
+dotnet new console -n microsoft.botsay -f net6.0
 
+NuGet\Install-Package Microsoft.EntityFrameworkCore.Tools -Version 6.0.18
+NuGet\Install-Package Microsoft.EntityFrameworkCore -Version 6.0.18
+NuGet\Install-Package Microsoft.EntityFrameworkCore.SqlServer -Version 6.0.18
+
+//connection string
+ "ConnectionStrings": {
+    "connection": "Data Source = DESKTOP-83C4JL9\\KALI; Initial Catalog = Medical_shop; Integrated Security = True;"
+  }
+//data context class 
+    public class DataContext:DbContext
+    {
+        public DataContext(DbContextOptions<DataContext> options ):base(options)
+        {
+            
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
+        }
+}
+
+//Middleware 
+builder.Services.AddDbContext<DataContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("connection"));
+});
+//Cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("mypolicy", builder =>
+    {
+        builder.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+       
+    });
+});
+
+app.UseCors("mypolicy");
+
+//Dependency Inversion
+builder.Services.AddTransient<IInsert, Insert_>();
