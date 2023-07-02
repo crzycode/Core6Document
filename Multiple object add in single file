@@ -1,0 +1,28 @@
+ public void create_file_multiple_object()
+    {
+        var d = Directory.GetCurrentDirectory();
+        if (!File.Exists($@"D:\\Projects\\MamtaMedical\\Practice\\Mamta_medical\\Mamta_medical\\mangal.json"))
+        {
+            File.Create($@"D:\\Projects\\MamtaMedical\\Practice\\Mamta_medical\\Mamta_medical\\mangal.json").Dispose();
+        }
+        var data = File.ReadAllText($@"D:\\Projects\\MamtaMedical\\Practice\\Mamta_medical\\Mamta_medical\\mangal.json");
+        dynamic json = JsonConvert.DeserializeObject<List<dynamic>>(data);
+
+        var k = new JArray(new JObject(
+            new JProperty("fghj", "hjk")
+            ));
+      
+
+        json = k;
+        //after that
+        /*   var k = new
+           {
+               fg = "ghj"
+           };
+         json.Add(k);
+         */
+        var dd = JsonConvert.SerializeObject(json, Newtonsoft.Json.Formatting.Indented);
+        File.WriteAllText($@"D:\\Projects\\MamtaMedical\\Practice\\Mamta_medical\\Mamta_medical\\mangal.json", dd);
+
+
+    }
