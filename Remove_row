@@ -1,0 +1,3 @@
+ var data = db.products.Where(c => c.Product_id == id).First();
+                        db.products.Remove(data);
+                        db.SaveChanges();
