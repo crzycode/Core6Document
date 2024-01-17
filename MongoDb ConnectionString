@@ -54,29 +54,56 @@ builder.Services.AddSingleton<IMongoDatabase>(c =>
            
         }
 // 2nd option 
-        private readonly IMongoCollection<MongoBrands> mongo;
-        private readonly IMongoCollection<MongoProducts> Product;
-        private readonly IMongoCollection<MongoCategory> Cat;
+
+  "MamtaMedicalConnection": {
+    "ConnectionString": "mongodb://localhost:27017",
+    "DatabaseName": "MamtaMedical"
+  },
+
+//Create Connection model
+  public class MamtaMedicalConnection
+    {
+        public string ConnectionString { get; set; }
+        public string DatabaseName { get; set; }
+    }
+
+//program.cs
+builder.Services.AddSingleton<IMongoDatabase>(c =>
+{
+    var mongosetting = builder.Configuration.GetSection("MamtaMedicalConnection").Get<MamtaMedicalConnection>();
+    var client = new MongoClient(mongosetting.ConnectionString);
+    return client.GetDatabase(mongosetting.DatabaseName);
+});
+
+  private readonly IMongoCollection<MongoBrands> _Brands;
+        private readonly IMongoCollection<MongoProducts> _Product;
+        private readonly IMongoCollection<MongoCategory> _Category;
+        private readonly IMongoCollection<MongoSubcategory> _Subcategory;
         public MongoContext(IMongoDatabase database)
         {
 
-            this.mongo = database.GetCollection<MongoBrands>("Brands");
-            this.Product = database.GetCollection<MongoProducts>("Products");
-            this.Cat = database.GetCollection<MongoCategory>("Category");
+            this._Brands = database.GetCollection<MongoBrands>("Brands");
+            this._Product = database.GetCollection<MongoProducts>("Products");
+            this._Category = database.GetCollection<MongoCategory>("Category");
+            this._Subcategory = database.GetCollection<MongoSubcategory>("Subcategory");
         }
-        public IMongoCollection<MongoBrands> Brands()
-        {
-            return mongo;
-        }
-        public IMongoCollection<MongoProducts> Products()
-        {
-            return Product;
-        }
-        public IMongoCollection<MongoCategory> Category()
-        {
-            return Cat;
-        }
-        /*public  IMongoCollection<MongoBrands> Brand { get { return mongo; } set { Brand = mongo; } }*/
-    }
+        public IMongoCollection<MongoBrands> Brands() { return this._Brands; }
+
+        public IMongoCollection<MongoProducts> Products() { return _Product; }
+    
+        public IMongoCollection<MongoCategory> Category() { return _Category; }
+
+        public IMongoCollection<MongoSubcategory> Subcategory() { return _Subcategory; }
 
 builder.Services.AddSingleton<MongoContext>();
+
+
+private readonly MongoContext context;
+        public BrandAction(IMongoDatabase database, MongoContext context)
+        {
+
+            this.context = context;
+        }
+
+//use this 
+this.context.Brands().InsertOne(brand);
