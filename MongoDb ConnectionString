@@ -53,3 +53,30 @@ builder.Services.AddSingleton<IMongoDatabase>(c =>
             mongo.InsertOne(category);
            
         }
+// 2nd option 
+        private readonly IMongoCollection<MongoBrands> mongo;
+        private readonly IMongoCollection<MongoProducts> Product;
+        private readonly IMongoCollection<MongoCategory> Cat;
+        public MongoContext(IMongoDatabase database)
+        {
+
+            this.mongo = database.GetCollection<MongoBrands>("Brands");
+            this.Product = database.GetCollection<MongoProducts>("Products");
+            this.Cat = database.GetCollection<MongoCategory>("Category");
+        }
+        public IMongoCollection<MongoBrands> Brands()
+        {
+            return mongo;
+        }
+        public IMongoCollection<MongoProducts> Products()
+        {
+            return Product;
+        }
+        public IMongoCollection<MongoCategory> Category()
+        {
+            return Cat;
+        }
+        /*public  IMongoCollection<MongoBrands> Brand { get { return mongo; } set { Brand = mongo; } }*/
+    }
+
+builder.Services.AddSingleton<MongoContext>();
