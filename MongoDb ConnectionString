@@ -1,0 +1,55 @@
+
+  "MamtaMedicalConnection": {
+    "ConnectionString": "mongodb://localhost:27017",
+    "DatabaseName": "MamtaMedical"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "MamtaMedical": "Data Source = localhost,1433; Initial Catalog = Mamtamedicaldb; User Id=sa;Password=kali"
+  }
+}
+
+//Create Connection model
+  public class MamtaMedicalConnection
+    {
+        public string ConnectionString { get; set; }
+        public string DatabaseName { get; set; }
+    }
+
+//program.cs
+builder.Services.AddSingleton<IMongoDatabase>(c =>
+{
+    var mongosetting = builder.Configuration.GetSection("MamtaMedicalConnection").Get<MamtaMedicalConnection>();
+    var client = new MongoClient(mongosetting.ConnectionString);
+    return client.GetDatabase(mongosetting.DatabaseName);
+});
+
+//Repository
+
+ private readonly IMongoCollection<MongoCategory> mongo;
+        private readonly IMongoCollection<MongoProducts> Product;
+        public CategoryAction(IMongoDatabase database)
+        {
+
+            this.mongo = database.GetCollection<MongoCategory>("Category");
+            this.Product = database.GetCollection<MongoProducts>("Products");
+        }
+//insert into db
+    public void AddCategory(CategoryModel m)
+        {
+            MongoCategory category = new MongoCategory();
+            category._id = m.Category_id;
+            category.Category_id = m.Category_id;
+            category.Category_name = m.Category_name;   
+            category.Image_name = m.Image_name;
+            category.Image = m.Category_id;
+            category.Description=m.Description;
+            mongo.InsertOne(category);
+           
+        }
