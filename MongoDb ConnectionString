@@ -94,6 +94,23 @@ builder.Services.AddSingleton<IMongoDatabase>(c =>
         public IMongoCollection<MongoCategory> Category() { return _Category; }
 
         public IMongoCollection<MongoSubcategory> Subcategory() { return _Subcategory; }
+//or
+
+  public IMongoCollection<MongoBrands> Brands { get; set; }
+        public IMongoCollection<MongoProducts> Products { get; set; }
+        public IMongoCollection<MongoCategory> Category { get; set; }
+        public IMongoCollection<MongoSubcategory> Subcategory { get; set; }
+
+        public IMongoCollection<MongoPackofsize> Packofsize { get; set; }
+        public MongoContext(IMongoDatabase database)
+        {
+
+            this.Brands = database.GetCollection<MongoBrands>("Brands");
+            this.Products = database.GetCollection<MongoProducts>("Products");
+            this.Category = database.GetCollection<MongoCategory>("Category");
+            this.Subcategory = database.GetCollection<MongoSubcategory>("Subcategory");
+            this.Packofsize = database.GetCollection<MongoPackofsize>("Packofsize");
+        }
 
 builder.Services.AddSingleton<MongoContext>();
 
