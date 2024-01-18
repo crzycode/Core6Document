@@ -1,0 +1,9 @@
+//push data in array
+var filter = Builders<MongoTitletype>.Filter.Eq("_id","Titletype");
+                var update = Builders<MongoTitletype>.Update.Push(x => x.data, types);
+               var check = db.Titletype.UpdateOne(filter, update);
+
+//update array element
+var filter = Builders<MongoTitletype>.Filter.Eq(x => x._id,"Titletype");
+                        var update = Builders<MongoTitletype>.Update.Set(x => x.data[j],t.Name);
+                      var check =  db.Titletype.UpdateOne(filter, update);
