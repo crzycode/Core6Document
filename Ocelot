@@ -1,0 +1,48 @@
+install ocelot 
+    <PackageReference Include="Ocelot" Version="18.0.0" />
+//program.cs
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("mypolicy", builder =>
+    {
+        builder.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+
+    });
+});
+builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
+builder.Services.AddOcelot(builder.Configuration);
+
+app.UseCors("mypolicy");
+await app.UseOcelot();
+
+
+
+dynamic query
+    {
+      "DownstreamPathTemplate": "/api/Product/GetByMedicineType/{type}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7160
+        }
+      ],
+      "UpstreamPathTemplate": "/Product/GetByMedicineType/{type}",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+
+//without dynamic
+{
+      "DownstreamPathTemplate": "/MamtaMedicalAdmin/api/Medicinetype/Get",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 1515
+        }
+      ],
+      "UpstreamPathTemplate": "/Medicinetype/Get",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
