@@ -1,9 +1,17 @@
 create project with cmd 
 dotnet new console -n microsoft.botsay -f net6.0
-
+dotnet add package Microsoft.EntityFrameworkCore.Tools --version 6.0.33
+//or
 NuGet\Install-Package Microsoft.EntityFrameworkCore.Tools -Version 6.0.18
+//or 
+dotnet add package Microsoft.EntityFrameworkCore --version 6.0.33
+// or
 NuGet\Install-Package Microsoft.EntityFrameworkCore -Version 6.0.18
+//or
 NuGet\Install-Package Microsoft.EntityFrameworkCore.SqlServer -Version 6.0.18
+//or
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 6.0.33
+
 NuGet\Install-Package Microsoft.AspNetCore.Authentication.JwtBearer -Version 6.0.18
 
 //connection string
