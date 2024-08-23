@@ -1,0 +1,4 @@
+//server
+ "ConnectionStrings": {
+  "DefaultConnection": "Server=localhost,1433;Database=master;User Id=sa;Password=TheBe@ST_1994;TrustServerCertificate=True;MultipleActiveResultSets=true;"
+}
