@@ -1,0 +1,2 @@
+// create a webapi project 
+dotnet new webapi -n revision1 -f net6.0
