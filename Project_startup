@@ -1,5 +1,9 @@
 create project with cmd 
 dotnet new console -n microsoft.botsay -f net6.0
+
+// tool not install globally
+dotnet tool install --global dotnet-ef
+
 dotnet add package Microsoft.EntityFrameworkCore.Tools --version 6.0.33
 //or
 NuGet\Install-Package Microsoft.EntityFrameworkCore.Tools -Version 6.0.18
